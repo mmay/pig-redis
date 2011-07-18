@@ -3,7 +3,7 @@ package com.hackdiary.pig;
 import org.junit.Test;
 import redis.clients.jedis.Jedis;
 
-public class TestJedisFunctionality {
+public class Jedis_functionality_learning_test {
 
     @Test
     public void testJedis() {
@@ -23,9 +23,6 @@ public class TestJedisFunctionality {
 
         System.out.println(jedis.hgetAll("bacon:stuff"));
         System.out.println(jedis.hget("bacon:stuff", "date1"));
-
-
-
     }
 
 }
