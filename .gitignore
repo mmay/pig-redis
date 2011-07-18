@@ -3,3 +3,5 @@ dist
 .*.sw*
 lib
 pig*.log
+*.i*
+target
