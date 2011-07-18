@@ -1,18 +1,20 @@
 package com.hackdiary.pig;
 
-import org.apache.hadoop.mapreduce.*;
-import org.apache.hadoop.mapreduce.lib.output.*;
-import org.apache.hadoop.io.*;
-import org.apache.hadoop.io.compress.*;
-import org.apache.hadoop.fs.*;
-import org.apache.pig.*;
-import org.apache.pig.data.*;
-import org.apache.pig.impl.util.*;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.OutputFormat;
+import org.apache.hadoop.mapreduce.RecordWriter;
+import org.apache.hadoop.mapreduce.lib.output.NullOutputFormat;
+import org.apache.pig.ResourceSchema;
+import org.apache.pig.StoreFunc;
+import org.apache.pig.data.DataType;
 import org.apache.pig.data.Tuple;
-import redis.clients.jedis.*;
-import java.io.*;
-import java.util.*;
-import org.apache.commons.lang.StringUtils;
+import org.apache.pig.impl.util.UDFContext;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Pipeline;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Properties;
 
 public class RedisStorer extends StoreFunc {
   protected Jedis _jedis;
@@ -73,7 +75,7 @@ public class RedisStorer extends StoreFunc {
           }
           idx++;
         }
-        p.execute();
+        p.exec();
       }
       if(_mode.equals("hash")) {
         UDFContext context  = UDFContext.getUDFContext();
@@ -89,7 +91,7 @@ public class RedisStorer extends StoreFunc {
           }
           idx++;
         }
-        p.execute();
+        p.exec();
       }
     }
 
