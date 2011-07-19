@@ -12,12 +12,14 @@ import org.apache.pig.data.TupleFactory;
 import redis.clients.jedis.Jedis;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class RedisLoader extends LoadFunc {
     protected Jedis jedis;
-    protected RecordReader in = null;
+    protected RecordReader in;
     private String loadLocation;
     private static final TupleFactory tupleFactory = TupleFactory.getInstance();
     private String key;
@@ -64,7 +66,9 @@ public class RedisLoader extends LoadFunc {
             return null;
         }
         Map.Entry<String, String> entry = hSetIterator.next();
-
-        return tupleFactory.newTuple(entry);
+        List<String> mapEntry = new ArrayList<String>();
+        mapEntry.add(entry.getKey());
+        mapEntry.add(entry.getValue());
+        return tupleFactory.newTuple(mapEntry);
     }
 }

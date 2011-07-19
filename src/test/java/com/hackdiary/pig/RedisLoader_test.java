@@ -17,14 +17,25 @@ public class RedisLoader_test {
     public void redis_read_load_stuff() throws IOException {
 
         Jedis jedis = new Jedis("localhost", 6379);
-        Map<String,String> hSet = jedis.hgetAll("bacon:stuff");
-        Iterator<Map.Entry<String,String>> iterator = hSet.entrySet().iterator();
-        while (iterator.hasNext()) {
-            System.out.println(iterator.next().toString());
-        }
+        jedis.hset("bacon:stuff", "date1", "1000");
+        jedis.hset("bacon:stuff", "date2", "2000");
+        jedis.hset("bacon:stuff", "date3", "3000");
+        jedis.hset("bacon:stuff", "date4", "4000");
+        jedis.hset("bacon:stuff", "date5", "5000");
 
-        RedisLoader loader = new RedisLoader("bacon:stuff","localhost", 6379);
-        Tuple t = loader.getNext();
+        Map<String, String> hSet = jedis.hgetAll("bacon:stuff");
+        Iterator<Map.Entry<String, String>> iterator = hSet.entrySet().iterator();
+        jedis.disconnect();
+
+        RedisLoader loader = new RedisLoader("bacon:stuff", "localhost", 6379);
+        loader.prepareToRead(null,null);
+        Tuple t = null;
+        while (iterator.hasNext()) {
+            t = loader.getNext();
+            if (t != null) {
+                System.out.println(t.toDelimitedString(","));
+            }
+        }
         assertNotNull(t);
 
     }
