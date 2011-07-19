@@ -27,7 +27,7 @@ public class RedisLoader_test {
         Iterator<Map.Entry<String, String>> iterator = hSet.entrySet().iterator();
         jedis.disconnect();
 
-        RedisLoader loader = new RedisLoader("bacon:stuff", "localhost", 6379);
+        RedisLoader loader = new RedisLoader("bacon:stuff", "localhost", "6379");
         loader.prepareToRead(null,null);
         Tuple t = null;
         while (iterator.hasNext()) {
