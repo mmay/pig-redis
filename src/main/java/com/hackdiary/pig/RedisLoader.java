@@ -10,8 +10,6 @@ import org.apache.pig.LoadFunc;
 import org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigSplit;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
@@ -24,7 +22,6 @@ public class RedisLoader extends LoadFunc {
     private String key;
     protected String host;
     protected String port;
-    private static final Logger LOG = LoggerFactory.getLogger(RedisLoader.class);
 
     public RedisLoader(String key, String host) {
         this(key,host,"6379");
