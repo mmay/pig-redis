@@ -36,7 +36,7 @@ public class RedisLoader_test {
 
         Configuration conf = new Configuration();
         conf.set(JedisInputFormat.jedisHost, "localhost");
-        conf.set(JedisInputFormat.jedisPost, "6379");
+        conf.set(JedisInputFormat.jedisPort, "6379");
         TaskAttemptID id = new TaskAttemptID();
         TaskAttemptContext context = new TaskAttemptContext(conf, id);
         JedisHashSetRecordReader reader = new JedisHashSetRecordReader();

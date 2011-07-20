@@ -1,6 +1,8 @@
 package com.hackdiary.pig.jedis_impl;
 
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.mapreduce.InputSplit;
 import org.apache.hadoop.mapreduce.RecordReader;
@@ -12,6 +14,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class JedisHashSetRecordReader extends RecordReader<String, String> {
+    private static final Log LOG = LogFactory.getLog(JedisHashSetRecordReader.class);
     private Jedis jedis;
     private Map<String, String> HSET;
     private Iterator<Map.Entry<String,String>> HSET_Iterator;
@@ -19,8 +22,9 @@ public class JedisHashSetRecordReader extends RecordReader<String, String> {
 
     @Override
     public void initialize(InputSplit inputSplit, TaskAttemptContext taskAttemptContext) throws IOException, InterruptedException {
+        LOG.error("IN INIT RR ===========");
         Configuration conf = taskAttemptContext.getConfiguration();
-        jedis = new Jedis(conf.get(JedisInputFormat.jedisHost), Integer.parseInt(conf.get(JedisInputFormat.jedisPost)));
+        jedis = new Jedis(conf.get(JedisInputFormat.jedisHost), Integer.parseInt(conf.get(JedisInputFormat.jedisPort)));
         HSET = jedis.hgetAll(JedisInputFormat.redisHashSetName);
         HSET_Iterator = HSET.entrySet().iterator();
     }
