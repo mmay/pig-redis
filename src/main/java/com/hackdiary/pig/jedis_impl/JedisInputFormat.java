@@ -5,8 +5,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.mapreduce.*;
 import org.apache.pig.impl.util.UDFContext;
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,14 +28,9 @@ public class JedisInputFormat extends InputFormat<String, String> {
         LOG.error("==========" + p.getProperty(jedisPort));
         LOG.error("==========" + p.getProperty(redisHashSetName));
 
-        JedisPool jPool = new JedisPool(new JedisPoolConfig(), p.getProperty(jedisHost));
-        Jedis jedis = jPool.getResource();
+        Jedis jedis = new Jedis(p.getProperty(jedisHost), Integer.parseInt(p.getProperty(jedisPort)));
 
         Map map = jedis.hgetAll(p.getProperty(redisHashSetName));
-        jPool.returnResource(jedis);
-
-
-//        Jedis jedis = new Jedis(p.getProperty(jedisHost), Integer.parseInt(p.getProperty(jedisPort)), 10000);
 
         splits.add(new JedisInputSplit(map));
         return splits;

@@ -44,6 +44,7 @@ public class RedisLoader extends LoadFunc {
         UDFContext context = UDFContext.getUDFContext();
         JobConf conf = (JobConf) job.getConfiguration();
         context.addJobConf(conf);
+        context.getUDFProperties();
         Properties p = context.getClientSystemProps();
         p.setProperty(JedisInputFormat.jedisHost, host);
         p.setProperty(JedisInputFormat.jedisPort, port);
